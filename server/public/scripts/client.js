@@ -30,6 +30,8 @@ function onSubmitClick(){
   postUserGuesses(newGuesses);
   console.log(newGuesses);
 
+  $('input').val('');
+
   newGuesses = [];
 
   console.log(newGuesses);
@@ -68,9 +70,11 @@ function readGuesses(){
     $('#previousGuessesList').empty();
 
     for (let guess of response){
+      for (let i=0; i<guess.allTheGuesses.length; i++){
       $('#previousGuessesList').append(`
-        <li>${guess.name} guessed ${guess.number}</li>
-      `);
+        <li>${guess.allTheGuesses[i].name} guessed ${guess.allTheGuesses[i].number}</li>
+        `);
+      }
     }
   })
 }
