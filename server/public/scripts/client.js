@@ -35,16 +35,44 @@ function onSubmitClick(){
   console.log(newGuesses);
 }
 
-function postUserGuesses(guesses){
+function postUserGuesses(newGuesses){
+  //console.log(newGuesses);
+  //console.log(guesses);
+  let dataToSendToTheServer = {
+    allTheGuesses: newGuesses
+  };
+  console.log('guesses:', newGuesses);
+  console.log('dataToSendToTheServer', dataToSendToTheServer);
   $.ajax({
     method: 'POST',
     url: '/guessesPage',
-    data: guesses
+    data: dataToSendToTheServer
   })
   .then(function (response){
-        //readGuesses();
+    console.log('response of POST is:');
+    console.log(response);
+        readGuesses();
   })
+  //console.log(newGuesses);
+  //console.log(guesses);
+}
 
+function readGuesses(){
+  $.ajax({
+    method: 'GET',
+    url: '/guessesPage'
+  })
+  .then(function(response){
+    console.log('the server sent me something');
+    console.log(response);
+    $('#previousGuessesList').empty();
+
+    for (let guess of response){
+      $('#previousGuessesList').append(`
+        <li>${guess.name} guessed ${guess.number}</li>
+      `);
+    }
+  })
 }
 
 function onResetClick(){
