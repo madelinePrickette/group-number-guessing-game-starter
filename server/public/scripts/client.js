@@ -69,11 +69,19 @@ function readGuesses(){
     console.log(response);
     $('#previousGuessesList').empty();
 
+    if (typeof response === 'string'){
+      $('#congrats').append(`
+        <h2>CONGRATS! YOU WON! The number was:  ${response}</h2>
+        `);
+        // return true
+    }
+    else{
     for (let guess of response){
       for (let i=0; i<guess.allTheGuesses.length; i++){
       $('#previousGuessesList').append(`
         <li>${guess.allTheGuesses[i].name} guessed ${guess.allTheGuesses[i].number}</li>
         `);
+        }
       }
     }
   })

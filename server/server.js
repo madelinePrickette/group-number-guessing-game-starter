@@ -13,6 +13,13 @@ app.use(express.static('server/public'));
 
 // GET & POST Routes go here
 
+function randomNumberFunction(min, max){
+  return Math.floor(Math.random() * (1 + max - min) + 1);
+}
+
+let randomizedNumber = randomNumberFunction(1, 25);
+console.log(randomizedNumber);
+
 app.post('/guessesPage', (req, res) => {
   console.log('POST/guessesPage');
   console.log(req.body);
@@ -20,10 +27,21 @@ app.post('/guessesPage', (req, res) => {
   previousGuessesList.push(newGuess);
   res.sendStatus(200);
   console.log(previousGuessesList);
+
 })
 
 app.get('/guessesPage', (req, res) => {
   console.log('GET /guessesPage');
+  for (let guess of previousGuessesList){
+    for ( i = 0; i < guess.allTheGuesses.length; i++){
+      if ( guess.allTheGuesses[i].number === randomizedNumber.toString()){
+        res.send(guess.allTheGuesses[i].number);
+        console.log(guess.allTheGuesses[i]);
+        return true;
+      }
+      
+    }
+  }
   res.send(previousGuessesList);
 })
 
